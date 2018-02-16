@@ -14,5 +14,7 @@ setup(
         'matplotlib',
         'plotly'
     ],
-    description='Module for Spanish Catastro'
+    description='Data cleaning for building energy and temperature timeseries.',
+    test_suite='nose.collector',
+    tests_require=['nose'],
 )

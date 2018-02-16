@@ -16,7 +16,7 @@ def calculate_znorm(series, mode="global", **kwargs):
             if 'window' in kwargs:
                 mean_vals = series.rolling(center=True, window=kwargs['window'], min_periods=1).mean()
                 std_vals = series.rolling(center=True, window=kwargs['window'], min_periods=1).std(ddof=0)
-                znorm = np.abs((series - mean_vals) / std_vals)
+                znorm = np.abs((series - mean_vals) / std_vals).as_matrix()
             else:
                 raise Exception("Window not specified for 'rolling' mode. Specify a window")
     return znorm
