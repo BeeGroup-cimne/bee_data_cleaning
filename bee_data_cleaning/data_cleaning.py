@@ -38,7 +38,7 @@ def detect_max_threshold_outliers(series, threshold):
     return bool_outliers
 
 
-def detect_outliers(series, threshold, method, kwargs):
+def detect_outliers(series, threshold, method, **kwargs):
     bool_outliers = np.array([False]*len(series))
     for meth, thres in zip(method, threshold):
         if meth == 'znorm':
