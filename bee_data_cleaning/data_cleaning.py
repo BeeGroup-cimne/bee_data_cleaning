@@ -42,20 +42,21 @@ def detect_outliers(series, threshold, method, **kwargs):
     bool_outliers = np.array([False]*len(series))
     for meth, thres in zip(method, threshold):
         if meth == 'znorm':
-            bool_outliers_method = detect_znorm_outliers(series, thres, kwargs['mode'], **kwargs)
+                bool_outliers_method = detect_znorm_outliers(series, thres, **kwargs)
         elif meth == 'max_threshold':
-            bool_outliers_method = detect_max_threshold_outliers(series, threshold)
+            bool_outliers_method = detect_max_threshold_outliers(series, thres)
         elif meth == 'min_threshold':
-            bool_outliers_method = detect_min_threshold_outliers(series, threshold)
+            bool_outliers_method = detect_min_threshold_outliers(series, thres)
         else:
             raise Exception("Specified method not implemented"
                             "Available methods are 'znorm', 'max_threshold', 'min_threshold'")
         bool_outliers = np.logical_or(bool_outliers, bool_outliers_method)
+    return bool_outliers
 
 
 def clean_series(series, bool_outliers):
     cleaned_series = series.copy()
-    cleaned_series[bool_outliers is True] = np.nan
+    cleaned_series[bool_outliers==True] = np.nan
     return cleaned_series
 
 
