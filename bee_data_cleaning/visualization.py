@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.tools as plyt
-from utils import diff_month
+from bee_data_cleaning.utils import diff_month
 
 
 def plot_dataframe(df_to_plot, pdf, height=None, width=None, title="Dataset"):
