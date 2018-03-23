@@ -40,7 +40,7 @@ def detect_max_threshold_outliers(series, threshold):
 
 
 def detect_outliers(series, threshold, method, **kwargs):
-    warn("This function will be deprecated due to its complexity", DeprecationWarning, stacklevel=2)
+    warn("This function will be deprecated due to its complexity")
     bool_outliers = np.array([False]*len(series))
     for meth, thres in zip(method, threshold):
         if meth == 'znorm':
