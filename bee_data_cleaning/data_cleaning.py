@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from warnings import warn
 
 
 def calculate_znorm(series, mode="global", **kwargs):
@@ -39,6 +40,7 @@ def detect_max_threshold_outliers(series, threshold):
 
 
 def detect_outliers(series, threshold, method, **kwargs):
+    warn("This function will be deprecated due to its complexity", DeprecationWarning, stacklevel=2)
     bool_outliers = np.array([False]*len(series))
     for meth, thres in zip(method, threshold):
         if meth == 'znorm':
