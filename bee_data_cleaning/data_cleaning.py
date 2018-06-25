@@ -3,21 +3,32 @@ import pandas as pd
 from warnings import warn
 
 
-def calculate_znorm(series, mode="global", **kwargs):
+def mean_outliers(series, lowq=2.5, highq=97.5):
+    hh = series[(float(np.nanpercentile(series, highq)) >= series) & (float(np.nanpercentile(series, lowq)) <= series)]
+    return hh.mean()
+
+
+def std_outliers(series, lowq=2.5, highq=97.5):
+    hh = series[(float(np.nanpercentile(series, highq)) >= series) & (float(np.nanpercentile(series, lowq)) <= series)]
+    return hh.std(ddof=0)
+
+
+def calculate_znorm(series, mode="global", lowq=2.5, highq=97.5, **kwargs):
     znorm = np.array([np.nan] * len(series))
     if len(series.value_counts(dropna=True).index) > 1:
-
         # Detect the z-norm outliers
         if mode not in ["rolling", "global"]:
             raise Exception("Not valid mode in detect_znorm_outliers. "
                             "Only 'rolling' or 'global' are available")
         if mode == "global":
-            znorm = np.abs((series - series.mean()) / series.std(ddof=0))
+            znorm = np.abs((series - mean_outliers(series, lowq, highq)) / std_outliers(series, lowq, highq))
         elif mode == "rolling":
             if 'window' in kwargs:
-                mean_vals = series.rolling(center=True, window=kwargs['window'], min_periods=1).mean()
-                std_vals = series.rolling(center=True, window=kwargs['window'], min_periods=1).std(ddof=0)
-                znorm = np.abs((series - mean_vals) / std_vals)
+                mean_vals = series.rolling(center=True, window=kwargs['window'], min_periods=1).apply(
+                    mean_outliers, kwargs={'lowq': lowq, 'highq': highq})
+                std_vals = series.rolling(center=True, window=kwargs['window'], min_periods=1).apply(
+                    std_outliers, kwargs={'lowq': lowq, 'highq': highq})
+                znorm = np.abs((series - mean_vals) / std_vals).as_matrix()
             else:
                 raise Exception("Window not specified for 'rolling' mode. Specify a window")
     return znorm
