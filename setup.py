@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='bee_data_cleaning',
-    version='0.0.4',
+    version='0.0.5',
     packages=find_packages(),
     url='https://github.com/BeeGroup-cimne/bee_data_cleaning',
     license='MIT',

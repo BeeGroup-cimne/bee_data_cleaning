@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
