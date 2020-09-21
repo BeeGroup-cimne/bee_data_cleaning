@@ -1,3 +1,5 @@
+"""This module contains the visualization functions to analyze the dataframe."""
+
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.dates as mdates
@@ -11,16 +13,16 @@ from bee_data_cleaning.utils import diff_month
 
 def plot_dataframe(df_to_plot, pdf, height=None, width=None, title="Dataset"):
     """
-    Plot dataframes of data.
-    :param df_to_plot: pandas.DataFrame
+    Plots the dataframes
+    df_to_plot: pandas.DataFrame, mandatory
         dataframe to plot
-    :param pdf: PDFobject or string
+    pdf: PDFobject or string, mandatory
         file where the plot will be stored
-    :param height: int
+    height: int, optional
         height of the plot
-    :param width: int
+    width: int, optional
         width of the plot
-    :param title: string
+    title: string, default="Dataset"
         title of the plot
     """
     height = 3 * len(df_to_plot.columns) if height is None else height
@@ -135,10 +137,28 @@ def plot_histogram(series, pdf, title="Histogram"):
 
 
 def initialize_plotly_by_rows(nrows, titles):
+    """
+        Initiates a plotly to plot the timeseries.
+        nrows: integer, mandatory
+            the number of rows to add in the plot
+        titles: list of strings,mandatory
+            the titles to add to each row
+        """
     return plyt.make_subplots(rows=nrows, cols=1, shared_xaxes=True, subplot_titles=titles)
 
 
-def add_plotly_timeseries(fig, series, deviceId, type, unit):
+def add_plotly_timeseries(fig, series, label, unit):
+    """
+        Adds a new timeseries to the plotly object
+        fig: plotly figure, mandatory
+            the plotly figure to add the timeseries
+        series:  a series
+            The series to add to the data.
+        label: string,
+            A label indicating information about the data
+        unit: string,
+            The unit of the data
+        """
     element = len(fig['data']) + 1
     fig.append_trace(
         go.Scatter(
