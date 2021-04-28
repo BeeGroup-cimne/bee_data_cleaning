@@ -1,7 +1,6 @@
 """This module contains the visualization functions to analyze the dataframe."""
 
 import matplotlib
-matplotlib.use('TkAgg')
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
